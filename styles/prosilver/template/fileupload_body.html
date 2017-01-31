@@ -1,0 +1,41 @@
+<!-- INCLUDE overall_header.html -->
+
+<form method="post" id="add_fileupload" {S_FORM_ENCTYPE}>
+	<div class="panel" id="showdiv">
+		<div class="inner">
+			<h2>{L_FILEUPLOAD_UPLOAD_SECTION}</h2>
+			<p>{L_FILEUPLOAD_UPLOAD_MESSAGE}</p>
+			<p>{FILEUPLOAD_ALLOWED_SIZE}</p>
+			<dl>
+				<dt><label>{L_FILEUPLOAD_NEW_FILENAME}{L_COLON}</label> <input class="inputbox autowidth" type="file" name="filename" size="52" /></dt>
+				<dd></dd>
+			</dl>
+		</div>
+	</div>
+	<div class="panel bg2">
+		<div class="inner">
+			<fieldset class="submit-buttons">
+				<input class="button1" id="submit" name="submit" value="{L_SUBMIT}" type="submit" />&nbsp;
+				{S_FORM_TOKEN}
+			</fieldset>
+		</div>
+	</div>
+</form>
+
+<!-- IF FILENAME -->
+<div class="panel bg2">
+	<div class="inner">
+		<fieldset class="fields2">
+			<h4 id="showdiv">{L_FILEUPLOAD_SUCCEEDED}</h4>
+			<p id="codes">
+				<label id="codehtml">{L_FILEUPLOAD_DIRECT_LINK}{L_COLON}</label><br />
+				<input type="text" value="{FILENAME}" onclick="javascript:this.focus();this.select();" readonly="true" /><br />
+				<label id="codehtml">{L_FILEUPLOAD_URL_LINK}{L_COLON}</label><br />
+				<input type="text" value="[url={FILENAME}]{L_FILEUPLOAD_BY} {SITENAME}[/url]" onclick="javascript:this.focus();this.select();" readonly="true" /><br />
+			</p>
+		</fieldset>
+	</div>
+</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE overall_footer.html -->
