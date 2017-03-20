@@ -15,7 +15,7 @@ class fileupload_info
 	{
 		return array(
 			'filename'	=> '\dmzx\fileupload\acp\fileupload_module',
-			'title'		=> 'ACP_IMAGE_UPLOAD',
+			'title'		=> 'ACP_FILE_UPLOAD',
 			'modes'		=> array(
 				'configuration'	=> array(
 					'title' => 'ACP_FILE_UPLOAD_CONFIG',
