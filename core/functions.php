@@ -7,7 +7,7 @@
 *
 */
 
-namespace dmzx\Fileupload\core;
+namespace dmzx\fileupload\core;
 
 use phpbb\template\template;
 use phpbb\config\config;

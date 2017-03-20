@@ -33,6 +33,51 @@
 			{S_FORM_TOKEN}
 		</p>
 	</fieldset>
+	<!-- IF .files -->
+	<!-- IF .pagination or ACP_TOTAL_FILES -->
+	<div class="pagination">
+		{ACP_TOTAL_FILES}
+		<!-- IF .pagination -->
+			<!-- INCLUDE pagination.html -->
+		<!-- ELSE -->
+			&bull; {PAGE_NUMBER}
+		<!-- ENDIF -->
+	</div>
+	<!-- ENDIF -->
+	<div class="clear"></div>
+	<table cellspacing="1">
+		<thead>
+			<tr>
+				<th>{L_ACP_FILEUPLOAD_TITLE}</th>
+				<th>{L_ACP_FILEUPLOAD_TITLE_REAL}</th>
+				<th>{L_ACP_FILEUPLOAD_USERNAME}</th>
+				<th>{L_ACP_FILEUPLOAD_SIZE}</th>
+				<th style="text-align: center;">{L_MARK}</th>
+			</tr>
+		</thead>
+		<tbody>
+		<!-- BEGIN files -->
+			<!-- IF files.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
+				<td valign="top">{files.FILENAME}</td>
+				<td valign="top">{files.FILENAME_REAL}</td>
+				<td valign="top">{files.FILE_USERNAME}</td>
+				<td valign="top">{files.SIZE}</td>
+				<td style="text-align: center;"><input type="checkbox" class="radio" name="ids[]" value="{files.ID}" title="{files.ID}"/></td>
+			</tr>
+		<!-- END files -->
+		</tbody>
+	</table>
+	<span style="float:left;display:block;">{L_ACP_FILEUPLOAD_FOLDER_SIZE}{L_COLON} {TOTAL_FILE_SIZE}</span>
+	<br />
+	<fieldset class="quick">
+		<p class="small"><a href="#" onclick="marklist('acp_fileupload', 'ids', true);">{L_MARK_ALL}</a> &bull; <a href="#" onclick="marklist('acp_fileupload', 'ids', false);">{L_UNMARK_ALL}</a></p>
+		<input class="button2" name="delmarked" value="{L_DELETE_MARKED}" type="submit">
+	</fieldset>
+	<fieldset class="display-options">
+		<span class="gensmall">{L_SORT_BY}</span> {S_SELECT_SORT_KEY} {S_SELECT_SORT_DIR}&nbsp;
+		<input class="button2" type="submit" name="sort" value="{L_GO}" />
+	</fieldset>
+	<!-- ENDIF -->
 </form>
 
 <!-- INCLUDE overall_footer.html -->

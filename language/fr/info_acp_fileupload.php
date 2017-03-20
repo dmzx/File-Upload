@@ -29,10 +29,14 @@ if (empty($lang) || !is_array($lang))
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 //
-// Some characters for use
+// Some characters you may want to copy&paste:
 // ’ » “ ” …
+//
 
 $lang = array_merge($lang, array(
-	'ACL_U_FILE_UPLOAD'		=> 'Can upload files in File Upload',
-	'ACL_U_FILEUPLOAD'		=> 'File Upload',
+	' ACP_FILE_UPLOAD '			 =>	' File Upload ',
+	' ACP_FILE_UPLOAD_CONFIG '	 =>	' Configuration ',
+	// Connexion
+	' LOG_FILEUPLOAD_ADD '		 =>	' <strong> nouveau fichier Ajouté </strong><br>» %1$s ',
+	' LOG_FILEUPLOAD_SETTINGS '	 =>	' <strong> Configuration File Upload changé </strong> ',
 ));

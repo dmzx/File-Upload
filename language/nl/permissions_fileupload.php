@@ -3,6 +3,7 @@
 *
 * @package phpBB Extension - File Upload
 * @copyright (c) 2017 dmzx - http://www.dmzx-web.net
+* Nederlandse vertaling @ Solidjeuh <https://www.froddelpower.be>
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -33,6 +34,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 
 $lang = array_merge($lang, array(
-	'ACL_U_FILE_UPLOAD'		=> 'Can upload files in File Upload',
-	'ACL_U_FILEUPLOAD'		=> 'File Upload',
+	'ACL_U_FILE_UPLOAD'	=> 'Kan bestanden uploaden in Bestand upload',
+	'ACL_U_FILEUPLOAD'		=> 'Bestand Upload',
 ));

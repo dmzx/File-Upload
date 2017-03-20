@@ -3,9 +3,13 @@
 	"type": "phpbb-extension",
 	"description": "This extension will add an upload system for files to your forum.",
 	"homepage": "http://www.dmzx-web.net",
-	"version": "1.0.0",
-	"time": "2017-01-29",
-	"keywords": ["phpbb", "extension", "fileupload"],
+	"version": "1.0.1",
+	"time": "2017-03-20",
+	"keywords": [
+		"phpbb",
+		"extension",
+		"fileupload"
+	],
 	"license": "GPL-2.0",
 	"authors": [
 		{

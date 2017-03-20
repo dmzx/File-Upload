@@ -7,6 +7,9 @@
 *
 */
 
+/**
+* DO NOT CHANGE
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -29,10 +32,17 @@ if (empty($lang) || !is_array($lang))
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 //
-// Some characters for use
+// Some characters you may want to copy&paste:
 // ’ » “ ” …
+//
 
 $lang = array_merge($lang, array(
-	'ACL_U_FILE_UPLOAD'		=> 'Can upload files in File Upload',
-	'ACL_U_FILEUPLOAD'		=> 'File Upload',
+	'ACP_FILEUPLOAD_SAVED'				=> 'Configurações do Upload de Arquivo salvas',
+	'ACP_FILEUPLOAD_VERSION'			=> 'Versão',
+	'ACP_FILE_UPLOAD_CONFIGURATION'		=> 'Configuração do Upload de Arquivo',
+	'ACP_FILEUPLOAD_ENABLE'				=> 'Habilita Upload de Arquivo',
+	'ACP_FILEUPLOAD_ENABLE_EXPLAIN'		=> 'Configuração global para habilitar o upload de arquivo.',
+	'ACP_FILEUPLOAD_NUMBER'				=> 'Tamanho do upload',
+	'ACP_FILEUPLOAD_NUMBER_EXPLAIN'		=> 'O tamanho padrão do upload é 2 MB.',
+	'ACP_FILEUPLOAD_NEW_DOWNLOAD_SIZE'	=> 'O tamanho máximo que seu php.ini permite é <strong>%1$s %2$s</strong>!',
 ));

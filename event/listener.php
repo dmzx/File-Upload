@@ -104,7 +104,7 @@ class listener implements EventSubscriberInterface
 	{
 		$this->template->assign_vars(array(
 			'U_FILEUPLOAD_UPLOAD'		=> $this->helper->route('dmzx_fileupload_controller_upload'),
-			'FILEUPLOAD_USE_UPLOAD'	=> ($this->auth->acl_get('u_file_upload') && $this->config['fileupload_enable']) ? true : false,
+			'FILEUPLOAD_USE_UPLOAD'		=> ($this->auth->acl_get('u_file_upload') && $this->config['fileupload_enable']) ? true : false,
 			'PHPBB_IS_32'				=> ($this->files_factory !== null) ? true : false,
 		));
 	}

@@ -7,6 +7,9 @@
 *
 */
 
+/**
+* DO NOT CHANGE
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -29,10 +32,17 @@ if (empty($lang) || !is_array($lang))
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 //
-// Some characters for use
+// Some characters you may want to copy&paste:
 // ’ » “ ” …
+//
 
 $lang = array_merge($lang, array(
-	'ACL_U_FILE_UPLOAD'		=> 'Can upload files in File Upload',
-	'ACL_U_FILEUPLOAD'		=> 'File Upload',
+	'ACP_FILEUPLOAD_SAVED'					=> 'Dosya Yükleme ayarları kaydedildi',
+	'ACP_FILEUPLOAD_VERSION'				=> 'Versiyon',
+	'ACP_FILE_UPLOAD_CONFIGURATION'		=> 'Dosya yükleme yapılandırması',
+	'ACP_FILEUPLOAD_ENABLE'				=> 'Dosya yüklemeyi etkinleştir',
+	'ACP_FILEUPLOAD_ENABLE_EXPLAIN'		=> 'Dosya Yüklemeyi etkinleştirmek için genel ayarlar.',
+	'ACP_FILEUPLOAD_NUMBER'				=> 'Yükleme boyutu',
+	'ACP_FILEUPLOAD_NUMBER_EXPLAIN'		=> 'Yükleme boyutunu varsayılan olarak 2 MB yapın.',
+	'ACP_FILEUPLOAD_NEW_DOWNLOAD_SIZE'		=> 'Php.ini dosyasının izin verdiği maksimum boyut <strong>%1$s %2$s</strong>!',
 ));

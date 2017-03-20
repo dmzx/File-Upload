@@ -33,6 +33,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 
 $lang = array_merge($lang, array(
-	'ACL_U_FILE_UPLOAD'		=> 'Can upload files in File Upload',
-	'ACL_U_FILEUPLOAD'		=> 'File Upload',
+	'ACL_U_FILE_UPLOAD'	=> 'Peut télécharger des fichiers dans File Upload',
+	'ACL_U_FILEUPLOAD'		=> 'Téléchargement de fichiers',
 ));

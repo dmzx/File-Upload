@@ -9,12 +9,12 @@
 
 namespace dmzx\fileupload\migrations;
 
-class fileupload_data extends \phpbb\db\migration\migration
+class fileupload_install extends \phpbb\db\migration\migration
 {
 	public function update_data()
 	{
 		return array(
-			// Update configs
+			// Add configs
 			array('config.add', array('fileupload_system_version', '1.0.0')),
 			array('config.add', array('fileupload_enable', 1)),
 			array('config.add', array('fileupload_number', 2)),
@@ -26,7 +26,7 @@ class fileupload_data extends \phpbb\db\migration\migration
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',
-				'ACP_FILE_UPLOAD'
+				'ACP_FILE_UPLOAD',
 			)),
 			array('module.add', array(
 				'acp',
@@ -38,6 +38,34 @@ class fileupload_data extends \phpbb\db\migration\migration
 					),
 				),
 			)),
+		);
+	}
+
+	public function update_schema()
+	{
+		return array(
+			'add_tables'	=> array(
+				$this->table_prefix . 'file_upload'	=> array(
+					'COLUMNS'	=> array(
+						'fileupload_id'			=> array('UINT:8', null, 'auto_increment'),
+						'fileupload_filename'	=> array('VCHAR', ''),
+						'fileupload_realname'	=> array('VCHAR', ''),
+						'upload_time'			=> array('UINT:8', 0),
+						'filesize'				=> array('INT:11', 0),
+						'user_id'				=> array('INT:8', 0),
+					),
+					'PRIMARY_KEY'	=> 'fileupload_id',
+				),
+			),
+		);
+	}
+
+	public function revert_schema()
+	{
+		return 	array(
+			'drop_tables' => array(
+				$this->table_prefix . 'file_upload',
+			),
 		);
 	}
 }

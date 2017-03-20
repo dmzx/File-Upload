@@ -29,7 +29,7 @@ class fileupload_module
 				// Load a template from adm/style for our ACP page
 				$this->tpl_name = 'acp_fileupload';
 				// Set the page title for our ACP page
-				$this->page_title = $user->lang['ACP_File_UPLOAD_CONFIG'];
+				$this->page_title = $user->lang['ACP_FILE_UPLOAD_CONFIG'];
 				// Load the display options handle in the admin controller
 				$admin_controller->display_options();
 			break;
