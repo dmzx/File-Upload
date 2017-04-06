@@ -33,6 +33,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 
 $lang = array_merge($lang, array(
-	'ACL_U_FILE_UPLOAD'	=> 'Puede subir archivos en Subida de Archivos',
-	'ACL_U_FILEUPLOAD'	=> 'Subida de Archivos',
+	'ACL_U_FILE_UPLOAD'		=> 'Puede subir archivos en Subida de Archivos',
+	'ACL_U_FILEUPLOAD'		=> 'Subida de Archivos',
 ));

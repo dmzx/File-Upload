@@ -47,6 +47,5 @@ $lang = array_merge($lang, array(
 	'FILEUPLOAD_SUCCEEDED'					=> '¡Subida correcta!',
 	'FILEUPLOAD_DIRECT_LINK'				=> 'Enlace directo',
 	'FILEUPLOAD_URL_LINK'					=> 'URL',
-	'FILEUPLOAD_FILE_LINK'					=> 'ARCHIVO',
 	'FILEUPLOAD_BY'							=> 'Archivo subido por',
 ));

@@ -39,4 +39,5 @@ $lang = array_merge($lang, array(
 	// Log
 	'LOG_FILEUPLOAD_ADD'		=> '<strong>Añadido nuevo archivo</strong><br>» %1$s',
 	'LOG_FILEUPLOAD_SETTINGS'	=> '<strong>Configuración cambiada en Subida de Archivos</strong>',
+	'LOG_FILEUPLOAD_DELETED'	=> '<strong>Archivo borrado</strong><br>» %1$s',
 ));
