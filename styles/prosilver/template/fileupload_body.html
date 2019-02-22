@@ -1,41 +1,41 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
 
-<form method="post" id="add_fileupload" {S_FORM_ENCTYPE}>
+<form method="post" id="add_fileupload" {{ S_FORM_ENCTYPE }}>
 	<div class="panel" id="showdiv">
 		<div class="inner">
-			<h2>{L_FILEUPLOAD_UPLOAD_SECTION}</h2>
-			<p>{L_FILEUPLOAD_UPLOAD_MESSAGE}</p>
-			<p>{FILEUPLOAD_ALLOWED_SIZE}</p>
+			<h2>{{ lang('FILEUPLOAD_UPLOAD_SECTION') }}</h2>
+			<p>{{ lang('FILEUPLOAD_UPLOAD_MESSAGE') }}</p>
+			<p>{{ FILEUPLOAD_ALLOWED_SIZE }}</p>
 			<dl>
-				<dt><label>{L_FILEUPLOAD_NEW_FILENAME}{L_COLON}</label> <input class="inputbox autowidth" type="file" name="filename" size="52" /></dt>
-				<dd><label>{L_ALLOWED} {L_EXTENSION}{L_COLON}</label><!-- BEGIN allowed_extension --><!-- IF not allowed_extension.FIRST -->,<!-- ENDIF --> {allowed_extension.EXTENSION}<!-- END allowed_extension --></dd>
+				<dt><label>{{ lang('FILEUPLOAD_NEW_FILENAME') }}{{ lang('COLON') }}</label> <input class="inputbox autowidth" type="file" name="filename" size="52" /></dt>
+				<dd><label>{{ lang('ALLOWED') }} {{ lang('EXTENSION') }}{{ lang('COLON') }}</label>{% for allowed_extension in loops.allowed_extension %}{% if not allowed_extension.FIRST %},{% endif %} {{ allowed_extension.EXTENSION }}{% endfor %}</dd>
 			</dl>
 		</div>
 	</div>
 	<div class="panel bg2">
 		<div class="inner">
 			<fieldset class="submit-buttons">
-				<input class="button1" id="submit" name="submit" value="{L_SUBMIT}" type="submit" />&nbsp;
-				{S_FORM_TOKEN}
+				<input class="button1" id="submit" name="submit" value="{{ lang('SUBMIT') }}" type="submit" />&nbsp;
+				{{ S_FORM_TOKEN }}
 			</fieldset>
 		</div>
 	</div>
 </form>
 
-<!-- IF FILENAME -->
+{% if FILENAME %}
 <div class="panel bg2">
 	<div class="inner">
 		<fieldset class="fields2">
-			<h4 id="showdiv">{L_FILEUPLOAD_SUCCEEDED}<br /><br />{SIZE}</h4>
+			<h4 id="showdiv">{{ lang('FILEUPLOAD_SUCCEEDED') }}<br /><br />{{ SIZE }}</h4>
 			<p id="codes">
-				<label id="codehtml">{L_FILEUPLOAD_DIRECT_LINK}{L_COLON}</label><br />
-				<input type="text" value="{FILENAME}" onclick="javascript:this.focus();this.select();" readonly="true" /><br />
-				<label id="codehtml">{L_FILEUPLOAD_URL_LINK}{L_COLON}</label><br />
-				<input type="text" value="[url={FILENAME}]{L_FILEUPLOAD_BY} {SITENAME}[/url]" onclick="javascript:this.focus();this.select();" readonly="true" /><br /><br />
+				<label id="codehtml">{{ lang('FILEUPLOAD_DIRECT_LINK') }}{{ lang('COLON') }}</label><br />
+				<input type="text" value="{{ FILENAME }}" id="link" /><i class="buttoncopyf" data-copytarget="#link">{{ lang('DIRECT_COPY_BUTTON') }}</i><br />
+				<label id="codehtml">{{ lang('FILEUPLOAD_URL_LINK') }}{{ lang('COLON') }}</label><br />
+				<input type="text" value="[url={{ FILENAME }}]{{ lang('FILEUPLOAD_BY') }} {{ SITENAME }}[/url]" id="url" /><i class="buttoncopyf" data-copytarget="#url">{{ lang('URL_COPY_BUTTON') }}</i><br /><br />
 			</p>
 		</fieldset>
 	</div>
 </div>
-<!-- ENDIF -->
-
-<!-- INCLUDE overall_footer.html -->
+{% endif %}
+{% INCLUDEJS 'js/copy.js' %}
+{% INCLUDE 'overall_footer.html' %}

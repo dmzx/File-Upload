@@ -1,83 +1,83 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
 
-<h1>{L_ACP_FILE_UPLOAD}</h1>
+<h1>{{ lang('ACP_FILE_UPLOAD') }}</h1>
 
 <p><img src="https://img.shields.io/badge/{{ lang('Version') }}-{{ ACP_FILEUPLOAD_VERSION }}-green.svg?style=plastic" /></p>
 
-<form id="acp_fileupload" method="post" action="{U_ACTION}">
+<form id="acp_fileupload" method="post" action="{{ U_ACTION }}">
 	<fieldset>
-		<legend>{L_ACP_FILE_UPLOAD_CONFIGURATION}</legend>
+		<legend>{{ lang('ACP_FILE_UPLOAD_CONFIGURATION') }}</legend>
 		<dl>
-			<dt><label for="fileupload_enable">{L_ACP_FILEUPLOAD_ENABLE}{L_COLON}</label><br />
-				<span>{L_ACP_FILEUPLOAD_ENABLE_EXPLAIN}</span>
+			<dt><label for="fileupload_enable">{{ lang('ACP_FILEUPLOAD_ENABLE') }}{{ lang('COLON') }}</label><br />
+				<span>{{ lang('ACP_FILEUPLOAD_ENABLE_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<label><input type="radio" class="radio" name="fileupload_enable" value="1"<!-- IF ACP_FILEUPLOAD_ENABLE --> id="fileupload_enable" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-				<label><input type="radio" class="radio" name="fileupload_enable" value="0"<!-- IF not ACP_FILEUPLOAD_ENABLE --> id="fileupload_enable" checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+				<label><input type="radio" class="radio" name="fileupload_enable" value="1"{% if ACP_FILEUPLOAD_ENABLE %} id="fileupload_enable" checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="fileupload_enable" value="0"{% if not ACP_FILEUPLOAD_ENABLE %} id="fileupload_enable" checked="checked"{% endif %} /> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
 			<dt>
-				<label for="fileupload_number">{L_ACP_FILEUPLOAD_NUMBER}{L_COLON}</label><br />
-				<span>{L_ACP_FILEUPLOAD_NUMBER_EXPLAIN}<br />{ACP_FILEUPLOAD_ALLOWED_SIZE}</span>
+				<label for="fileupload_number">{{ lang('ACP_FILEUPLOAD_NUMBER') }}{{ lang('COLON') }}</label><br />
+				<span>{{ lang('ACP_FILEUPLOAD_NUMBER_EXPLAIN') }}<br />{{ ACP_FILEUPLOAD_ALLOWED_SIZE }}</span>
 			</dt>
 			<dd>
-				<input type="number" name="fileupload_number" id="fileupload_number" size="4" maxlength="4" min="1" max="5000" value="{ACP_FILEUPLOAD_NUMBER}" />
+				<input type="number" name="fileupload_number" id="fileupload_number" size="4" maxlength="4" min="1" max="5000" value="{{ ACP_FILEUPLOAD_NUMBER }}" />
 			</dd>
 		</dl>
 	</fieldset>
 	<fieldset>
 		<p class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
-			{S_FORM_TOKEN}
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+			{{ S_FORM_TOKEN }}
 		</p>
 	</fieldset>
-	<!-- IF .files -->
-	<!-- IF .pagination or ACP_TOTAL_FILES -->
+	{% if loops.files|length %}
+	{% if loops.pagination|length or ACP_TOTAL_FILES %}
 	<div class="pagination">
-		{ACP_TOTAL_FILES}
-		<!-- IF .pagination -->
-			<!-- INCLUDE pagination.html -->
-		<!-- ELSE -->
-			&bull; {PAGE_NUMBER}
-		<!-- ENDIF -->
+		{{ ACP_TOTAL_FILES }}
+		{% if loops.pagination|length %}
+			{% INCLUDE 'pagination.html' %}
+		{% else %}
+			&bull; {{ PAGE_NUMBER }}
+		{% endif %}
 	</div>
-	<!-- ENDIF -->
+	{% endif %}
 	<div class="clear"></div>
 	<table cellspacing="1">
 		<thead>
 			<tr>
-				<th>{L_ACP_FILEUPLOAD_TITLE}</th>
-				<th>{L_ACP_FILEUPLOAD_TITLE_REAL}</th>
-				<th>{L_ACP_FILEUPLOAD_USERNAME}</th>
-				<th>{L_ACP_FILEUPLOAD_SIZE}</th>
-				<th style="text-align: center;">{L_MARK}</th>
+				<th>{{ lang('ACP_FILEUPLOAD_TITLE') }}</th>
+				<th>{{ lang('ACP_FILEUPLOAD_TITLE_REAL') }}</th>
+				<th>{{ lang('ACP_FILEUPLOAD_USERNAME') }}</th>
+				<th>{{ lang('ACP_FILEUPLOAD_SIZE') }}</th>
+				<th style="text-align: center;">{{ lang('MARK') }}</th>
 			</tr>
 		</thead>
 		<tbody>
-		<!-- BEGIN files -->
-			<!-- IF files.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
-				<td valign="top">{files.FILENAME}</td>
-				<td valign="top">{files.FILENAME_REAL}</td>
-				<td valign="top">{files.FILE_USERNAME}</td>
-				<td valign="top">{files.SIZE}</td>
-				<td style="text-align: center;"><input type="checkbox" class="radio" name="ids[]" value="{files.ID}" title="{files.ID}"/></td>
+		{% for files in loops.files %}
+			{% if files.S_ROW_COUNT is even %}<tr class="row1">{% else %}<tr class="row2">{% endif %}
+				<td valign="top">{{ files.FILENAME }}</td>
+				<td valign="top">{{ files.FILENAME_REAL }}</td>
+				<td valign="top">{{ files.FILE_USERNAME }}</td>
+				<td valign="top">{{ files.SIZE }}</td>
+				<td style="text-align: center;"><input type="checkbox" class="radio" name="ids[]" value="{{ files.ID }}" title="{{ files.ID }}"/></td>
 			</tr>
-		<!-- END files -->
+		{% endfor %}
 		</tbody>
 	</table>
-	<span style="float:left;display:block;">{L_ACP_FILEUPLOAD_FOLDER_SIZE}{L_COLON} {TOTAL_FILE_SIZE}</span>
+	<span style="float:left;display:block;">{{ lang('ACP_FILEUPLOAD_FOLDER_SIZE') }}{{ lang('COLON') }} {{ TOTAL_FILE_SIZE }}</span>
 	<br />
 	<fieldset class="quick">
-		<p class="small"><a href="#" onclick="marklist('acp_fileupload', 'ids', true);">{L_MARK_ALL}</a> &bull; <a href="#" onclick="marklist('acp_fileupload', 'ids', false);">{L_UNMARK_ALL}</a></p>
-		<input class="button2" name="delmarked" value="{L_DELETE_MARKED}" type="submit">
+		<p class="small"><a href="#" onclick="marklist('acp_fileupload', 'ids', true);">{{ lang('MARK_ALL') }}</a> &bull; <a href="#" onclick="marklist('acp_fileupload', 'ids', false);">{{ lang('UNMARK_ALL') }}</a></p>
+		<input class="button2" name="delmarked" value="{{ lang('DELETE_MARKED') }}" type="submit">
 	</fieldset>
 	<fieldset class="display-options">
-		<span class="gensmall">{L_SORT_BY}</span> {S_SELECT_SORT_KEY} {S_SELECT_SORT_DIR}&nbsp;
-		<input class="button2" type="submit" name="sort" value="{L_GO}" />
+		<span class="gensmall">{{ lang('SORT_BY') }}</span> {{ S_SELECT_SORT_KEY }} {{ S_SELECT_SORT_DIR }}&nbsp;
+		<input class="button2" type="submit" name="sort" value="{{ lang('GO') }}" />
 	</fieldset>
-	<!-- ENDIF -->
+	{% endif %}
 </form>
 
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}

@@ -8,19 +8,73 @@
     color: #ECF1F3;
     border: 1px solid #000;
 }
+
 #codes input{
 	width: 99%;
 }
-.icon-upload { 
-	background-image: url("./images/icon_upload.png"); 
-}
+
 #upload {
 	max-width: 100%;
 	height: auto;
 }
+
 #showdiv {
     text-align: center;
 }
+
 #codehtml {
     font-weight: bold;
+}
+
+.buttoncopyf {
+	font-size: 1em;
+	padding: 1.6px 6px;
+	margin: 0;
+	outline: 0;
+	box-shadow: none;
+	padding-bottom: 4.5px;
+	position: relative;
+	background-color: #77ddff;
+	border-radius: 0 3px 3px 0;
+	cursor: pointer;
+}
+
+@media (max-width: 850px) {
+	#codes input{
+		width: 80%;
+	}
+	.buttoncopy {
+		padding-top: 2px;
+		padding-bottom: 4px;
+	}
+}
+
+.copied::after {
+	position: absolute;
+	top: 12%;
+	right: 110%;
+	display: block;
+	content: "copied";
+	font-size: 0.75em;
+	padding: 0 2px 0 3px;
+	color: #fff;
+	background-color: #9900ff;
+	border-radius: 3px;
+	opacity: 0;
+	will-change: opacity, transform;
+	animation: showcopied 1.5s ease;
+}
+
+@keyframes showcopied {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+  }
 }

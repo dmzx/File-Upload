@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - File Upload
-* @copyright (c) 2017 dmzx - http://www.dmzx-web.net
+* @copyright (c) 2017 dmzx - https://www.dmzx-web.net & martin - https://www.martins-phpbb.com
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -77,6 +77,8 @@ class fileupload
 	protected $allowed_extensions = array(
 		'zip',
 		'rar',
+		'mp3',
+		'wmv',
 	);
 
 	/**
@@ -179,24 +181,12 @@ class fileupload
 		{
 			$filecheck = $multiplier = '';
 
-			if ($this->files_factory !== null)
-			{
-				$fileupload = $this->files_factory->get('upload')
-					->set_allowed_extensions($allowed_extensions);
-			}
-			else
-			{
-				if (!class_exists('\fileupload'))
-				{
-					include($this->root_path . 'includes/functions_upload.' . $this->php_ext);
-				}
-				$fileupload = new \fileupload();
-				$fileupload->fileupload('', $allowed_extensions);
-			}
+			$fileupload = $this->files_factory->get('upload')
+				->set_allowed_extensions($allowed_extensions);
 
 			$upload_dir = 'ext/dmzx/fileupload/files/';
 
-			$upload_file = (isset($this->files_factory)) ? $fileupload->handle_upload('files.types.form', 'filename') : $fileupload->form_upload('filename');
+			$upload_file = $fileupload->handle_upload('files.types.form', 'filename');
 
 			if (!$upload_file->get('uploadname'))
 			{

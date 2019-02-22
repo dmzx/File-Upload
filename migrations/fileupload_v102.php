@@ -9,19 +9,19 @@
 
 namespace dmzx\fileupload\migrations;
 
-class fileupload_v101 extends \phpbb\db\migration\migration
+class fileupload_v102 extends \phpbb\db\migration\migration
 {
 	static public function depends_on()
 	{
 		return array(
-			'\dmzx\fileupload\migrations\fileupload_install',
+			'\dmzx\fileupload\migrations\fileupload_v101',
 		);
 	}
 
 	public function update_data()
 	{
 		return array(
-			array('config.update', array('fileupload_system_version', '1.0.1')),
+			array('config.update', array('fileupload_system_version', '1.0.2')),
 		);
 	}
 }

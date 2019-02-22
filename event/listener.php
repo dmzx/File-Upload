@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - File Upload
-* @copyright (c) 2017 dmzx - http://www.dmzx-web.net
+* @copyright (c) 2017 dmzx - https://www.dmzx-web.net & martin - https://www.martins-phpbb.com
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -15,7 +15,6 @@ use phpbb\user;
 use phpbb\template\template;
 use phpbb\controller\helper;
 use phpbb\auth\auth;
-use phpbb\files\factory;
 
 class listener implements EventSubscriberInterface
 {
@@ -37,9 +36,6 @@ class listener implements EventSubscriberInterface
 	/** @var string */
 	protected $php_ext;
 
-	/** @var factory */
-	protected $files_factory;
-
 	/**
 	* Constructor
 	*
@@ -49,7 +45,6 @@ class listener implements EventSubscriberInterface
 	* @param helper				$helper
 	* @param auth				$auth
 	* @param string				$php_ext
-	* @param factory			$files_factory
 	*
 	*/
 	public function __construct(
@@ -58,8 +53,7 @@ class listener implements EventSubscriberInterface
 		template $template,
 		helper $helper,
 		auth $auth,
-		$php_ext,
-		factory $files_factory = null
+		$php_ext
 	)
 	{
 		$this->config 				= $config;
@@ -68,7 +62,6 @@ class listener implements EventSubscriberInterface
 		$this->helper 				= $helper;
 		$this->auth 				= $auth;
 		$this->php_ext				= $php_ext;
-		$this->files_factory 		= $files_factory;
 	}
 
 	static public function getSubscribedEvents()
@@ -105,7 +98,6 @@ class listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(
 			'U_FILEUPLOAD_UPLOAD'		=> $this->helper->route('dmzx_fileupload_controller_upload'),
 			'FILEUPLOAD_USE_UPLOAD'		=> ($this->auth->acl_get('u_file_upload') && $this->config['fileupload_enable']) ? true : false,
-			'PHPBB_IS_32'				=> ($this->files_factory !== null) ? true : false,
 		));
 	}
 

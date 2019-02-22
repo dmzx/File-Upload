@@ -10,7 +10,6 @@ services:
             - '@controller.helper'
             - '@auth'
             - '%core.php_ext%'
-            - '@?files.factory'
         tags:
             - { name: event.listener }
     dmzx.fileupload.admin.controller:

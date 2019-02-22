@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - File Upload
-* @copyright (c) 2017 dmzx - http://www.dmzx-web.net
+* @copyright (c) 2017 dmzx - https://www.dmzx-web.net & martin - https://www.martins-phpbb.com
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -33,6 +33,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 
 $lang = array_merge($lang, array(
-	'ACL_U_FILE_UPLOAD'		=> 'Puede subir archivos en Subida de Archivos',
-	'ACL_U_FILEUPLOAD'		=> 'Subida de Archivos',
+	'ACL_U_FILE_UPLOAD'	=> 'Puede subir archivos en Subida de Archivos',
+	'ACL_U_FILEUPLOAD'	=> 'Subida de Archivos',
 ));

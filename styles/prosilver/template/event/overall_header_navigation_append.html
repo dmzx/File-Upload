@@ -1,8 +1,4 @@
-<!-- IF FILEUPLOAD_USE_UPLOAD -->
-<li <!-- IF not PHPBB_IS_32 -->class="small-icon icon-upload"<!-- ENDIF --> data-last-responsive="true">
-	<a href="{U_FILEUPLOAD_UPLOAD}" target="_blank" title="{L_FILEUPLOAD_UPLOAD}" role="menuitem">
-		<!-- IF PHPBB_IS_32 --><i class="icon fa fa-upload" aria-hidden="true"></i><!-- ENDIF -->
-		<span>{L_FILEUPLOAD_UPLOAD}</span>
-	</a>
+{% if FILEUPLOAD_USE_UPLOAD %}
+<li data-last-responsive="true"><a href="{{ U_FILEUPLOAD_UPLOAD }}" target="_blank" title="{{ lang('FILEUPLOAD_UPLOAD') }}" role="menuitem"><i class="icon fa fa-upload" aria-hidden="true"></i><span>{{ lang('FILEUPLOAD_UPLOAD') }}</span></a>
 </li>
-<!-- ENDIF -->
+{% endif %}
