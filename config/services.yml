@@ -1,5 +1,5 @@
 imports:
-    - { resource: tables.yml }
+    - { resource: 'tables.yml' }
 services:
     dmzx.fileupload.listener:
         class: dmzx\fileupload\event\listener
@@ -11,7 +11,7 @@ services:
             - '@auth'
             - '%core.php_ext%'
         tags:
-            - { name: event.listener }
+            - { name: 'event.listener' }
     dmzx.fileupload.admin.controller:
         class: dmzx\fileupload\controller\admin_controller
         arguments:
@@ -24,6 +24,7 @@ services:
             - '@pagination'
             - '@ext.manager'
             - '@path_helper'
+            - '@filesystem'
             - '%dmzx.fileupload.table.file_upload%'
     dmzx.fileupload.controller.upload:
         class: dmzx\fileupload\controller\fileupload

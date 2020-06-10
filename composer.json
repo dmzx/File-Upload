@@ -3,14 +3,14 @@
 	"type": "phpbb-extension",
 	"description": "This extension will add an upload system for files to your forum.",
 	"homepage": "https://www.dmzx-web.net",
-	"version": "1.0.3",
-	"time": "2019-02-22",
+	"version": "1.0.4",
+	"time": "2020-06-10",
 	"keywords": [
 		"phpbb",
 		"extension",
 		"fileupload"
 	],
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-only",
 	"authors": [
 		{
 			"name": "dmzx",
@@ -34,7 +34,7 @@
 	"extra": {
 		"display-name": "File Upload",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2.0,<3.3"
+			"phpbb/phpbb": ">=3.2.0,<4.0.0@dev"
 		},
 		"version-check": {
 			"host": "www.dmzx-web.net",

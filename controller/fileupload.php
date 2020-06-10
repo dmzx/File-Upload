@@ -64,6 +64,8 @@ class fileupload
 	/** @var string */
 	protected $root_path;
 
+	protected $directoryLevel = 2;
+
 	/**
 	* The database table
 	*
@@ -184,8 +186,6 @@ class fileupload
 			$fileupload = $this->files_factory->get('upload')
 				->set_allowed_extensions($allowed_extensions);
 
-			$upload_dir = 'ext/dmzx/fileupload/files/';
-
 			$upload_file = $fileupload->handle_upload('files.types.form', 'filename');
 
 			if (!$upload_file->get('uploadname'))
@@ -195,8 +195,30 @@ class fileupload
 			}
 
 			$upload_file->clean_filename('uploadname');
+
+			//prepare the upload dir
+			$upload_subdir = $this->getSubDir(md5($upload_file->get('uploadname')));
+			$upload_dir = 'ext/dmzx/fileupload/file-files' . $upload_subdir . "/";
+
+			if (!is_dir($this->root_path . "/" . $upload_dir))
+			{
+				try {
+					@mkdir($this->root_path . $upload_dir, 0755, true);
+					if (!is_writable($this->root_path . $upload_dir))
+					{
+						meta_refresh(5, $this->helper->route('dmzx_fileupload_controller_upload'));
+						throw new http_exception(400, $this->user->lang('FILEUPLOAD_DIRECTORY_FAIL', $upload_dir));
+					}
+					file_put_contents($this->root_path . $upload_dir . 'index.html', '');
+				}
+				catch (\Exception $e)
+				{
+					throw $e;
+				}
+			}
+
 			$upload_file->move_file(str_replace($this->root_path, '', $upload_dir), true, true, 0644);
-			@chmod($this->ext_path_web . 'files/' . $upload_file->get('uploadname'), 0644);
+			@chmod($this->ext_path_web . 'file-files/' . $upload_file->get('uploadname'), 0644);
 
 			if (sizeof($upload_file->error) && $upload_file->get('uploadname'))
 			{
@@ -209,7 +231,7 @@ class fileupload
 			// End the upload
 			$sql_ary = array(
 				'fileupload_filename'	=> ucfirst(str_replace('_', ' ', preg_replace('#^(.*)\..*$#', '\1', $upload_file->get('uploadname')))),
-				'fileupload_realname'	=> $upload_file->get('realname'),
+				'fileupload_realname'	=> $upload_subdir . "/" . $upload_file->get('realname'),
 				'upload_time'			=> time(),
 				'filesize'				=> $upload_file->get('filesize'),
 				'user_id'				=> $this->user->data['user_id'],
@@ -275,6 +297,24 @@ class fileupload
 
 		// Send all data to the template file
 		return $this->helper->render('fileupload_body.html', $this->user->lang('FILEUPLOAD_UPLOAD_SECTION'));
+	}
+
+	protected function getSubDir($key)
+	{
+		$hex = '/'. $this->user->data['user_id'];
+		if ($this->directoryLevel > 0)
+		{
+			for ($i = 0; $i < $this->directoryLevel; ++$i)
+			{
+				if (($prefix = substr($key, $i + $i, 2)) !== false)
+				{
+					$prefix = substr(md5(mt_rand()), 0, 7);
+					$hex .= '/' . $prefix;
+				}
+			}
+			return $hex;
+		}
+		return $hex;
 	}
 
 	/**

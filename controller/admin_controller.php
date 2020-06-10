@@ -18,6 +18,7 @@ use phpbb\db\driver\driver_interface as db_interface;
 use phpbb\pagination;
 use phpbb\extension\manager;
 use phpbb\path_helper;
+use phpbb\filesystem\filesystem;
 
 class admin_controller
 {
@@ -48,6 +49,9 @@ class admin_controller
 	/** @var path_helper */
 	protected $path_helper;
 
+	/** @var filesystem */
+	protected $filesystem;
+
 	/**
 	* The database table
 	*
@@ -70,6 +74,7 @@ class admin_controller
 	 * @param pagination			$pagination
 	 * @param manager				$ext_manager
 	 * @param path_helper			$path_helper
+	 * @param filesystem			$filesystem
 	 * @param string 				$file_upload_table
 	 */
 	public function __construct(
@@ -82,6 +87,7 @@ class admin_controller
 		pagination $pagination,
 		manager $ext_manager,
 		path_helper $path_helper,
+		filesystem $filesystem,
 		$file_upload_table
 	)
 	{
@@ -94,6 +100,7 @@ class admin_controller
 		$this->pagination 			= $pagination;
 		$this->ext_manager	 		= $ext_manager;
 		$this->path_helper	 		= $path_helper;
+		$this->filesystem			= $filesystem;
 		$this->file_upload_table 	= $file_upload_table;
 		$this->ext_path 			= $this->ext_manager->get_extension_path('dmzx/fileupload', true);
 		$this->ext_path_web 		= $this->path_helper->update_web_root_path($this->ext_path);
@@ -107,14 +114,13 @@ class admin_controller
 	* @return null
 	* @access public
 	*/
-	public function display_options()
+	public function display_options($id, $mode)
 	{
 		$start		= $this->request->variable('start', 0);
 		$sort_days	= $this->request->variable('st', 0);
 		$sort_key	= $this->request->variable('sk', 'upload_time');
 		$sort_dir	= $this->request->variable('sd', 'd');
-		$ids 		= $this->request->variable('ids', array(0));
-		$deletemark	= $this->request->variable('delmarked', false, false, \phpbb\request\request_interface::POST);
+		$action 	= $this->request->variable('action', '');
 		$number		= $this->config['topics_per_page'];
 
 		add_form_key('acp_fileupload');
@@ -191,15 +197,17 @@ class admin_controller
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$file_name = $row['fileupload_realname'];
+			$fileupload_filename = $row['fileupload_filename'];
+			$file_path = $this->ext_path_web . 'file-files' . $file_name;
 
-			$filesize = @filesize($this->ext_path_web . 'files/' . $file_name);
+			$filesize = @filesize($file_path);
 
 			$this->template->assign_block_vars('files', array(
 				'FILENAME'			=> $row['fileupload_filename'],
 				'FILENAME_REAL'		=> $file_name,
 				'SIZE'				=> get_formatted_filesize($filesize),
 				'FILE_USERNAME'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
-				'ID'				=> $row['fileupload_id'],
+				'U_DELETE'			=> $this->u_action . '&amp;action=delete&amp;id=' . $row['fileupload_id']
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -213,7 +221,7 @@ class admin_controller
 			'ACP_FILEUPLOAD_VERSION'			=> $this->config['fileupload_system_version'],
 			'ACP_FILEUPLOAD_ENABLE'				=> $this->config['fileupload_enable'],
 			'ACP_FILEUPLOAD_NUMBER'				=> $this->config['fileupload_number'],
-			'ACP_FILEUPLOAD_ALLOWED_SIZE'		=> sprintf($this->user->lang['ACP_FILEUPLOAD_NEW_DOWNLOAD_SIZE'], $max_filesize, $unit),
+			'ACP_FILEUPLOAD_ALLOWED_SIZE'		=> $this->user->lang('ACP_FILEUPLOAD_NEW_DOWNLOAD_SIZE', $max_filesize, $unit),
 			'ACP_TOTAL_FILES'					=> $this->user->lang('ACP_MULTI_FILES', (int) $total_fileupload),
 			'TOTAL_FILE_SIZE'					=> get_formatted_filesize($total_filesize),
 			'S_SELECT_SORT_DIR'					=> $s_sort_dir,
@@ -221,49 +229,54 @@ class admin_controller
 			'U_ACTION'							=> $this->u_action,
 		));
 
-		if (($deletemark))
+		switch ($action)
 		{
-			if (!sizeof($ids))
-			{
-				trigger_error($this->user->lang('ACP_FILEUPLOAD_NOT_SELECTED') . adm_back_link($this->u_action));
-			}
+			case 'delete':
+				$fileupload_id = $this->request->variable('id', 0);
 
-			if (confirm_box(true))
-			{
-				if (sizeof($ids))
+				if (!$fileupload_id)
 				{
-					foreach ($ids as $id)
+					trigger_error($this->user->lang('ACP_FILEUPLOAD_NOT_SELECTED') . adm_back_link($this->u_action), E_USER_WARNING);
+				}
+
+				if (confirm_box(true))
+				{
+					$sql = 'SELECT fileupload_realname, fileupload_filename
+						FROM ' . $this->file_upload_table . '
+						WHERE fileupload_id = ' . (int) $fileupload_id;
+					$result = $this->db->sql_query($sql);
+					$row = $this->db->sql_fetchrow($result);
+					$file_name = $row['fileupload_realname'];
+					$this->db->sql_freeresult($result);
+
+					$delete_file = $this->ext_path_web . 'file-files/' . $file_name;
+
+					if ($this->filesystem->exists($delete_file))
 					{
-						$sql = 'SELECT fileupload_realname, fileupload_filename
-							FROM ' . $this->file_upload_table . '
-							WHERE fileupload_id = ' . (int) $id;
-						$result = $this->db->sql_query($sql);
-						$row = $this->db->sql_fetchrow($result);
-						$file_name = $row['fileupload_realname'];
-						$this->db->sql_freeresult($result);
-
-						$delete_file = $this->ext_path_web . 'files/' . $file_name;
-
-						@unlink($delete_file);
+						$dir = dirname(dirname($file_name));
+						$this->filesystem->remove($delete_file);
+						$this->remove_dir($this->ext_path_web . 'file-files' . $dir);
+					}
 
 						$sql = 'DELETE FROM ' . $this->file_upload_table . '
-							WHERE fileupload_id = ' . (int) $id;
+							WHERE fileupload_id = ' . (int) $fileupload_id;
 						$this->db->sql_query($sql);
 
 						// Log message
 						$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_FILEUPLOAD_DELETED', time(), array($file_name));
-					}
 				}
-			}
-			else
-			{
-				confirm_box(false, $this->user->lang['ACP_FILEUPLOAD_REALLY_DELETE_FILE'], build_hidden_fields(array(
-					'ids'		=> $ids,
-					'delmarked'	=> $deletemark,
-					'action'	=> $this->u_action))
-				);
-			}
-			redirect($this->u_action);
+				else
+				{
+					confirm_box(false, $this->user->lang['ACP_FILEUPLOAD_REALLY_DELETE_FILE'], build_hidden_fields(array(
+						'i'		 => $id,
+						'mode'	 => $mode,
+						'id'	 => $fileupload_id,
+						'action' => 'delete',
+						))
+					);
+				}
+				redirect($this->u_action);
+			break;
 		}
 	}
 	/**
@@ -276,6 +289,19 @@ class admin_controller
 	{
 		$this->config->set('fileupload_enable', $this->request->variable('fileupload_enable', 1));
 		$this->config->set('fileupload_number', $this->request->variable('fileupload_number', 2));
+	}
+
+	public function remove_dir($selected_dir)
+	{
+		$files = glob($selected_dir. '/*');
+
+		foreach ($files as $file)
+		{
+			is_dir($file) ? $this->remove_dir($file) : unlink($file);
+		}
+		@rmdir($selected_dir);
+
+		return;
 	}
 
 	/**

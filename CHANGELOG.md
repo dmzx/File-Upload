@@ -1,4 +1,11 @@
-## Changelog
+## File Upload Changelog
+
+### 1.0.4 - 2020-06-10
+
+- Rename "files" dir to "file-files"
+- Code update for 3.3.x
+- Changed code for ACP for deleting images.
+- Change column filesize to BINT
 
 ### 1.0.3 - 2019-02-22
 
