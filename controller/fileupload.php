@@ -218,7 +218,6 @@ class fileupload
 			}
 
 			$upload_file->move_file(str_replace($this->root_path, '', $upload_dir), true, true, 0644);
-			@chmod($this->ext_path_web . 'file-files/' . $upload_file->get('uploadname'), 0644);
 
 			if (sizeof($upload_file->error) && $upload_file->get('uploadname'))
 			{

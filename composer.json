@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "This extension will add an upload system for files to your forum.",
 	"homepage": "https://www.dmzx-web.net",
-	"version": "1.0.4",
-	"time": "2020-06-10",
+	"version": "1.0.5",
+	"time": "2021-03-22",
 	"keywords": [
 		"phpbb",
 		"extension",
@@ -20,7 +20,7 @@
 		},
 		{
 			"name": "martin",
-			"homepage": "https://www.martins-phpbb.com",
+			"homepage": "https://www.martins-phpbb-test.com",
 			"role": "Extension Developer"
 		}
 	],
